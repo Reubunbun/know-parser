@@ -9,7 +9,6 @@ const regex = [
     /(([+]\d{2}[ ][1-9]\d{0,2}[ ])|([0]\d{1,3}[-]))((\d{2}([ ]\d{2}){2})|(\d{3}([ ]\d{3})*([ ]\d{2})+))/g,
     /[+]44(7|1)\d{9}/g,
     /([0-9]{3})[-.]?([0-9]{3})[-.]([0-9]{4})/g,
-    /^[0-9]{10}$/
 ];
 const hrefRegex = /href="tel:([\d\s()+-\/]+\d[\d\s()+-\/]+)"/g;
 class KnowPhones {
@@ -31,12 +30,24 @@ class KnowPhones {
             .replace(/<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi, ' ')
             .replace(/<style\b[^<]*(?:(?!<\/style>)<[^<]*)*<\/style>/gi, ' ')
             .replace(/<[^>]*>/ig, ' ')
-            .replace(/\n/g, '')
-            .replace(/\s{3,}/g, ' knowparserbreaker ')
-            .replace(/tel/gi, ' knowparserbreaker tel')
-            .replace(/phone/gi, ' knowparserbreaker phone')
-            .replace(/fax/gi, ' knowparserbreaker fax')
-            .split('knowparserbreaker');
+            .replace(/\n/g, 'knowparserbreaker')
+            .replace(/\s{3,}/g, 'knowparserbreaker')
+            .replace(/tel/gi, 'knowparserbreaker tel')
+            .replace(/phone/gi, 'knowparserbreaker phone')
+            .replace(/fax/gi, 'knowparserbreaker fax')
+            .split('knowparserbreaker')
+            .filter(line => {
+                if (!line) {
+                    return false;
+                }
+
+                const nums = /[0-9]/;
+                if (!line.match(nums)) {
+                    return false;
+                }
+
+                return true;
+            });
 
         for (let i = 0; i < lineList.length; i++) {
             let line = lineList[i];
