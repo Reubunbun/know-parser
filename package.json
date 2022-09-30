@@ -28,7 +28,7 @@
   "author": "George Meadows",
   "license": "MIT",
   "dependencies": {
-    "parse-domain": "^7.0.1"
+    "parse-domain": "^1.2.0"
   },
   "devDependencies": {
     "axios": "^0.21.1",
